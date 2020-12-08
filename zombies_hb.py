@@ -8,7 +8,7 @@ def zombie_human_behavior(t, y, *args):
         Q: quarantined population
         D: dead population
         L: accumulated socio-economic losses due to murder 
-        x_S: proportion of susceptibles who support killing when q_max is reached
+        x_S: proportion of susceptibles who support murder when q_max is reached
         x_E: proportion of exposed who are willing to reveal they are bitten
     args: model parameters
         alpha: infection probability in encounter
@@ -18,12 +18,13 @@ def zombie_human_behavior(t, y, *args):
         r: recovery probability
         k: probability that a zombie is killed by a human
         q_max: maximum quarentine capacity 
-        x_S: proportion of susceptibles who support killing when q_max is reached
+        x_S: proportion of susceptibles who support murder when q_max is reached
         x_E: proportion of exposed who are willing to reveal they are bitten
         C: proportion of exposed willing to reveal depending on q_max and x_S
         eps_S: sensitivity to socioeconomic losses
         eps_E: sensitivity to societal pressure revealing exposure
-        mu: decay rate for socio-economic losses  
+        mu: decay rate for socio-economic losses
+        l_S: murder impact rate on socio-psych-economic health
     """
 
     S, Z, E, Q, D, x_S, x_E, L = y
@@ -49,6 +50,6 @@ def zombie_human_behavior(t, y, *args):
     dZ = z*E - k*S*Z
     dD = k*S*Z + m*S + z*Q + C*E
     dx_S = k*x_S * (1 - x_S) * (Z + Q - eps_S*L)
-    dL = alpha*C - mu*L 
+    dL = l_S*C - mu*L 
 
     return [dS, dZ, dE, dQ, dD, dx_S, dx_E, dL]
