@@ -13,36 +13,36 @@
 Course number: MATH 502}
 \maketitle
  
-$\frac{dS}{dt} = bS(t) - mS(t) -\alpha S(t)Z(t) + r(Q(t)+E(t))$
+$$\frac{dS}{dt} = bS(t) - mS(t) -\alpha S(t)Z(t) + r(Q(t)+E(t))$$
 
-$C(t) = \begin{cases}
+$$C(t) = \begin{cases}
 	0 & Q(t) < q_{\text{max}} \vee X_S(t) < 1/2 \\
 	C_0 & Q(t) \geq q_{\text{max}} \wedge X_S(t) \geq 1/2
-\end{cases}$
+\end{cases}$$
 
-$\frac{dE}{dt} = \begin{cases} 
-      \alpha S(t)Z(t) - zE(t) -rE(t) - (C_0 + X_I(t))E(t) - C(t) E(t) & Q(t) < q_{\text{max}} \\
+$$\frac{dE}{dt} = \begin{cases} 
+      \alpha S(t)Z(t) - zE(t) -rE(t) - (C_0 + X_E(t))E(t) - C(t) E(t) & Q(t) < q_{\text{max}} \\
       \alpha S(t)Z(t) - zE(t) -rE(t) - C(t) E(t) & Q(t) \geq q_{\text{max}}
    \end{cases}
-$
+$$
 
-$\frac{dQ}{dt} = \begin{cases}
-	(C_0 + X_I)E - rQ(t) - zQ(t) & Q(t) < q_{\text{max}}\\
+$$\frac{dQ}{dt} = \begin{cases}
+	(C_0 + X_E)E - rQ(t) - zQ(t) & Q(t) < q_{\text{max}}\\
 	rQ(t) - zQ(t) & Q(t) \geq q_{\text{max}}
-\end{cases}$
+\end{cases}$$
 
-$\frac{dZ}{dt} = zE(t) -kS(t)Z(t)$
+$$\frac{dZ}{dt} = zE(t) -kS(t)Z(t)$$
 
-$\frac{dD}{dt} = kS(t)Z(t) + mS(t) + zQ(t) + C(t)E$
+$$\frac{dD}{dt} = kS(t)Z(t) + mS(t) + zQ(t) + C(t)E$$
 
-$\frac{dX_S}{dt} = k_S X_S(t) (1 - X_S(t))[Z(t) + Q(t) - \epsilon_S L_S(t)]$
+$$\frac{dX_S}{dt} = k_S X_S(t) (1 - X_S(t))[Z(t) + Q(t) - \epsilon_S L_S(t)]$$
 
-$\frac{dX_I}{dt} = \begin{cases}
-	k_I X_I(t) (1 - X_I(t))\{(z-r)[E(t) + Q(t)] - \epsilon_I\} & Q(t) < q_{\text{max}} \\
+$$\frac{dX_E}{dt} = \begin{cases}
+	k_I X_E(t) (1 - X_E(t))\{(z-r)[E(t) + Q(t)] - \epsilon_I\} & Q(t) < q_{\text{max}} \\
 	0 & Q(t) \geq q_{\text{max}}
-\end{cases}$
+\end{cases}$$
 
-$\frac{dL_S}{dt} = \alpha_S C(t) - \mu L_s(t)$
+$$\frac{dL_S}{dt} = \beta C(t) - \mu L_s(t)$$
 
 
 
