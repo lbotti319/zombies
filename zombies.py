@@ -68,27 +68,60 @@ def corona_basic(t, y, *args):
     dH = w_H*I - (v_H + g_H + d_H)*H
     dR = (g_A + d_A)*A + (g_I + d_I)*I + (g_Q + d_Q)*Q + (g_H + d_H)*H
     return [dS, dE, dA, dI, dQ, dH, dR]
-
-
     
 
-def corona_expanded(t, y, *args):
+def zombie_human_behavior(t, y, *args):
     """
     t: time
-    y: Tuple of population values
-        S: susceptible
-        E: Exposed
-        A: Asymptomatic infected
-        I: Symptomatic infected
-        Q: Quarantined
-        H: Hospitalized
-        R: Removed (Dead/Recovered)
-        x_s: Proportion of susceptible individuals who support closure
-        x_I: Proportion of symptomatically infected individuals who self-isolate
-        L_s: Accumulated socio-economic losses due to closures
+    y: Population values
+        S: susceptible population
+        Z: zombie population
+        E: exposed population
+        Q: quarantined population
+        D: dead population
+        L: accumulated socio-economic losses due to murder 
+        x_S: proportion of susceptibles who support murder when q_max is reached
+        x_E: proportion of exposed who are willing to reveal they are bitten
     args: model parameters
-        
-        
+        alpha: infection probability in encounter
+        b: natural birth rate per individual per year
+        m: natural probability of death per individual per year
+        z: zombification probability once exposed
+        r: recovery probability
+        k: probability that a zombie is killed by a human
+        q_max: maximum quarentine capacity 
+        C_0: Proportion of exposed that are found to be exposed by the rest of the population
+        eps_S: sensitivity to socioeconomic losses
+        eps_E: sensitivity to societal pressure revealing exposure
+        mu: decay rate for socio-economic losses
+        l_S: murder impact rate on socio-psych-economic health
+        k_S: Learning rate of the susceptible population
+        k_E: Learning rate of the exposed population
     """
+
+    S, Z, E, Q, D, x_S, x_E, L = y
+    alpha, b, m, z, r, k, q_max, C_0, eps_S, eps_E, mu, l_S, k_S, k_E = args
     
-    S, E, A, I, Q, H, R, x_s, x_I, L_s= y
+    
+    if Q >= q_max and x_S >= 0.5: 
+        C = C_0
+    else: 
+        C = 0
+    
+   
+    if Q < q_max:   # if there is enough room for exposed in quarentine
+        dE = alpha*S*Z - z*E - r*E - E*(C_0 + x_E) - C*E
+        dQ = E*(C_0 + x_E) - r*Q - z*Q
+        dx_E = k_E*x_E*(1 - x_E) * ((z - r)*(E + Q) - eps_E)
+    elif Q >= q_max:
+        dE = alpha*S*Z - z*E - r*E - C*E
+        dQ = r*Q - z*Q
+        dx_E = 0
+
+    dS = b*S - m*S - alpha*S*Z + r*(Q+E)
+    dZ = z*E - k*S*Z
+    dD = k*S*Z + m*S + z*Q + C*E
+    dx_S = k_S*x_S * (1 - x_S) * (Z + Q - eps_S*L)
+    dL = l_S*C - mu*L 
+
+    return [dS, dZ, dE, dQ, dD, dx_S, dx_E, dL]
