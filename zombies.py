@@ -2,7 +2,7 @@ from scipy.integrate import solve_ivp
 import numpy as np
 import matplotlib.pyplot as plt
 
-def d_zombie(t, y, b, m, alpha, z, k):
+def d_zombie(t, y, b, m, alpha, z, k, r):
     """
     Population Variables:
         S: susceptible population
@@ -15,10 +15,11 @@ def d_zombie(t, y, b, m, alpha, z, k):
         alpha: infection probability in an encounter
         z: zombification probability
         k: probability that a zombie is killed by a human
+        r: recovery probability
     """
     S, Z, U, D = y
     result = [
-        (b - m - alpha*Z)*S,
+        (b - m - alpha*Z)*S + r*U,
         z*U - k*S*Z,
         alpha*S*Z - z*U,
         (k*Z+m)*S
@@ -113,7 +114,7 @@ def zombie_human_behavior(t, y, *args):
         dE = alpha*S*Z - z*E - r*E - E*(C_0 + x_E) - C*E
         dQ = E*(C_0 + x_E) - r*Q - z*Q
         dx_E = k_E*x_E*(1 - x_E) * ((z - r)*(E + Q) - eps_E)
-    elif Q >= q_max:
+    else:
         dE = alpha*S*Z - z*E - r*E - C*E
         dQ = r*Q - z*Q
         dx_E = 0
