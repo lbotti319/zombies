@@ -19,10 +19,10 @@ def d_zombie(t, y, b, m, alpha, z, k, r):
     """
     S, Z, U, D = y
     result = [
-        (b - m - alpha*Z)*S + r*U,
-        z*U - k*S*Z,
-        alpha*S*Z - z*U,
-        (k*Z+m)*S
+        (b - m - alpha*Z)*S + r*U, #dS
+        z*U - k*S*Z,    #dZ
+        alpha*S*Z - z*U - r*U,  #dU
+        (k*Z+m)*S   #dD
     ]
     return result
 
