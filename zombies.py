@@ -2,7 +2,7 @@ from scipy.integrate import solve_ivp
 import numpy as np
 import matplotlib.pyplot as plt
 
-def d_zombie(t, y, b, m, alpha, z, k, r):
+def d_zombie(t, y, alpha, b, m, z, r, k):
     """
     Population Variables:
         S: susceptible population
@@ -10,12 +10,12 @@ def d_zombie(t, y, b, m, alpha, z, k, r):
         U: undead population
         D: dead population
     Model Parameters:
-        b: babies per individual per year
+	    alpha: infection probability in an encounter
+        b: natural birth rate per individual per year
         m: probability of death per year
-        alpha: infection probability in an encounter
         z: zombification probability
-        k: probability that a zombie is killed by a human
         r: recovery probability
+        k: probability that a zombie is killed by a human
     """
     S, Z, U, D = y
     result = [
@@ -28,9 +28,9 @@ def d_zombie(t, y, b, m, alpha, z, k, r):
 
 
 def plot_it(solution):
-    plt.plot(solution.t, solution.y.T)
+    plt.plot(solution.t, solution.y.T[:,:3])
     plt.xlabel('t')
-    plt.legend(['Susceptibles', 'Zombies', 'Undead','Dead'], shadow=True, loc='upper right')
+    plt.legend(['Susceptibles', 'Zombies', 'Undead'], shadow=True, loc='upper right')
     plt.title('Population Changes Over Time')
     plt.show()
 
@@ -109,20 +109,23 @@ def zombie_human_behavior(t, y, *args):
     else: 
         C = 0
     
+
    
+
     if Q < q_max:   # if there is enough room for exposed in quarentine
         dE = alpha*S*Z - z*E - r*E - E*(C_0 + x_E) - C*E
         dQ = E*(C_0 + x_E) - r*Q - z*Q
-        dx_E = k_E*x_E*(1 - x_E) * ((z - r)*(E + Q) - eps_E)
+        
     else:
         dE = alpha*S*Z - z*E - r*E - C*E
         dQ = r*Q - z*Q
-        dx_E = 0
 
     dS = b*S - m*S - alpha*S*Z + r*(Q+E)
     dZ = z*E - k*S*Z
     dD = k*S*Z + m*S + z*Q + C*E
     dx_S = k_S*x_S * (1 - x_S) * (Z + Q - eps_S*L)
+    # The feelings towards self quarantine don't change even if it is unavailable
+    dx_E = k_E*x_E*(1 - x_E) * ((z - r)*(E + Q) - eps_E)
     dL = l_S*C - mu*L 
 
     return [dS, dZ, dE, dQ, dD, dx_S, dx_E, dL]
