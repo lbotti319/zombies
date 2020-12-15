@@ -9,6 +9,7 @@ def basic_plot(solution):
 
 
 def behavior_plot(solution):
+	
 	fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=[15,8])
 
 	ax1.plot(solution.t, solution.y.T[:,[0,1,2,3]])
