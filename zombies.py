@@ -80,9 +80,9 @@ def zombie_human_behavior(t, y, *args):
         E: exposed population
         Q: quarantined population
         D: dead population
-        L: accumulated socio-economic losses due to murder 
         x_S: proportion of susceptibles who support murder when q_max is reached
         x_E: proportion of exposed who are willing to reveal they are bitten
+        L: accumulated socio-economic losses due to murder 
     args: model parameters
         alpha: infection probability in encounter
         b: natural birth rate per individual per year
