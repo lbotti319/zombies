@@ -118,7 +118,7 @@ def zombie_human_behavior(t, y, *args):
         
     else:
         dE = alpha*S*Z - z*E - r*E - C*E
-        dQ = r*Q - z*Q
+        dQ = -r*Q - z*Q
 
     dS = b*S - m*S - alpha*S*Z + r*(Q+E)
     dZ = z*E - k*S*Z
